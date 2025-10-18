@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13-alpine
+    container_name: sapju_db
+    ports:
+      - 5432:5432
+    # volumes:
+    #   - ./dump-sample.sql:/docker-entrypoint-initdb.d/dump-sample.sql
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgrespw
+      - POSTGRES_DB=sapju
+    networks:
+      - convergencia-network
+  # prometheus:
+  #   image: prom/prometheus
+  #   container_name: fastapi_prometheus
+  #   ports:
+  #     - 9090:9090
+  #   volumes:
+  #     - ./prometheus.yml:/etc/prometheus/prometheus.yml
+  #   command:
+  #     - '--config.file=/etc/prometheus/prometheus.yml'
+  #   networks:
+  #     - convergencia-network
+  api:
+    build: ./sapju
+    container_name: sapju_api
+    ports:
+      - 5000:5000
+    depends_on:
+      - db
+    volumes: 
+      - ./sapju:/app
+    networks:
+      - convergencia-network
+
+volumes:
+  postgres_data:
+
+networks: 
+  convergencia-network:
+    driver: bridge
+
+
+# docker-compose up -d
+#
+# App:
+# http://127.0.0.1:5000/
+# http://127.0.0.1:5000/docs
+#
+#
+# Prometheus:
+# http://127.0.0.1:9090/
