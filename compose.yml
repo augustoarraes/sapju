@@ -6,8 +6,8 @@ services:
     container_name: sapju_db
     ports:
       - 5432:5432
-    # volumes:
-    #   - ./dump-sample.sql:/docker-entrypoint-initdb.d/dump-sample.sql
+    volumes:
+      - ./dump-sample.sql:/docker-entrypoint-initdb.d/dump-sample.sql
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgrespw
@@ -27,6 +27,7 @@ services:
   #     - convergencia-network
   api:
     build: ./sapju
+    image: sapju_api
     container_name: sapju_api
     ports:
       - 5000:5000

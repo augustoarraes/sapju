@@ -16,7 +16,7 @@ url = URL.create(
     port=os.environ["DB_PORT"]
 )
 
-print(url)
+print(f"INFO:     URL DB: {url}")
 engine = create_engine(url)
 Session = sessionmaker(bind=engine)
 session = Session()
