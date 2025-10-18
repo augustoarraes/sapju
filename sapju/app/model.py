@@ -1,0 +1,29 @@
+from sqlalchemy import Column, Integer, String, Boolean, Float, DateTime
+from sqlalchemy.orm import deferred
+from sqlalchemy.dialects import postgresql
+from app.db import Base
+from datetime import datetime
+
+
+class ProcessoModel(Base):
+    __tablename__ = "processo"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    classe = Column(String)
+    numero = Column(Integer, default=0)
+    orgao_origem = Column(String)
+    data_abertura = Column(DateTime)
+    eh_visivel = deferred(Column(Boolean, default=False))
+
+
+class DocumentoModel(Base):
+    __tablename__ = "documento"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    documento_id = Column(Integer, default=0)
+    processo_id = Column(Integer, default=0)
+    status = Column(String)
+    checksum = Column(String)
+    texto = Column(String)
+    data_upload = Column(DateTime)
+    eh_visivel = deferred(Column(Boolean, default=False))

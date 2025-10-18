@@ -4,8 +4,8 @@ from app.db import session
 from typing import List
 # from prometheus_fastapi_instrumentator import Instrumentator
 
-# from app.model import ProdutoModel
-# from app.schema import ProdutoData, ProdutoCreate, ProdutoUpdate, Produtos
+from app.model import ProcessoModel, DocumentoModel
+from app.schema import DocumentoCreate,  DocumentoData, ProcessoCreate, ProcessoData
 
 
 app = FastAPI(title='API SAPJu', description='Sistema de Análise de Processos Jurídicos')

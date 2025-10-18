@@ -1,0 +1,29 @@
+from pydantic import BaseModel, ValidationError, Field
+from typing import Optional
+from datetime import datetime
+from typing import List
+
+
+class DocumentoCreate(BaseModel):
+    status: str
+    checksum: str
+    documento_id: str
+
+class DocumentoData(DocumentoCreate):
+    data_upload: datetime
+
+class DocumentoProcesso(BaseModel):
+    documento_id: str
+    checksum: str
+
+
+
+
+class ProcessoCreate(BaseModel):
+    classe: str
+    numero: int
+    orgao_origem: str
+
+class ProcessoData(ProcessoCreate):
+    processo: ProcessoCreate
+    documentos: list[DocumentoProcesso]
