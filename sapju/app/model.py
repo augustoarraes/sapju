@@ -25,4 +25,5 @@ class DocumentoModel(Base):
     status = Column(String)
     checksum = Column(String)
     texto = Column(String)
-    data_upload = Column(DateTime, default=datetime.now().strftime("%m-%d-%Y %H:%M:%S.%f"))
+    data_criacao = Column(DateTime, default=datetime.now().strftime("%m-%d-%Y %H:%M:%S.%f"))
+    data_atualizacao = Column(DateTime, default=datetime.now().strftime("%m-%d-%Y %H:%M:%S.%f"))

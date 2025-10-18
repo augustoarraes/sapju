@@ -9,8 +9,10 @@ class DocumentoCreate(BaseModel):
     checksum: str
     documento_id: str
 
-class DocumentoData(DocumentoCreate):
-    data_upload: datetime
+class DocumentoData(BaseModel):
+    status: str
+    data_criacao: datetime
+    data_atualizacao: datetime
 
 class DocumentoProcesso(BaseModel):
     documento_id: str

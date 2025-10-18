@@ -1,17 +1,19 @@
-from fastapi import FastAPI, status, HTTPException
+from fastapi import FastAPI, status, HTTPException, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy import and_
+#from sqlalchemy import and_
 from app.db import session
 from typing import List
 # from prometheus_fastapi_instrumentator import Instrumentator
 
 from app.model import ProcessoModel, DocumentoModel
 from app.schema import DocumentoCreate,  DocumentoData, ProcessoCreate, ProcessoData, DocumentoProcesso
-from app.util import separa_classe_numero
+#from app.util import separa_classe_numero
+from simple_file_checksum import get_checksum
+import dotenv, os, uuid
 
 
 app = FastAPI(title='API SAPJu', description='Sistema de Análise de Processos Jurídicos')
-
+dotenv.load_dotenv(".env")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -56,6 +58,46 @@ def consulta_processo(processo_id: str):
     return {"processo": schema_processo}
 
 
+
+@app.post("/api/processos/{processo_id}/documentos", tags=['Documento'])
+async def upload_documento(processo_id: str, arquivos: List[UploadFile] = File(...)):
+    dir_uploads = os.environ["DIR_UPLOAD"]
+    algo = os.environ["ALGO_CHECKSUM"]
+    documentos = []
+
+    for arquivo in arquivos:
+        uuid_documento = str(uuid.uuid1() )
+        nome_documento = f"uuid_documento__{arquivo.filename}"
+        with open(f"{dir_uploads}/{nome_documento}", "wb") as escrever:
+            escrever.write( await arquivo.read() )
+            checksum = str( get_checksum(f"{dir_uploads}/{nome_documento}", algorithm=algo) )
+        documento = DocumentoModel(processo_id=processo_id, status="CADASTRADO", documento_id=uuid_documento, checksum=checksum)
+        session.add(documento)
+        session.commit()
+        aux = {
+            "status": documento.status,
+            "checksum": documento.checksum,
+            "documento_id": documento.documento_id
+        }
+        documentos.append(aux)
+
+    return documentos
+
+
+
+@app.get("/api/processos/{processo_id}/documentos/{documento_id}/status", response_model=DocumentoData, tags=['Documento'])
+async def consulta_documento(processo_id: str, documento_id: str):
+    try:
+        documento = session.query(DocumentoModel).filter(DocumentoModel.processo_id==processo_id, DocumentoModel.documento_id==documento_id).first()
+        if not documento:
+            raise HTTPException(status_code=404, detail=f"Documento não encontrado!")
+        return documento
+    except Exception as e:
+        session.rollback()
+        raise HTTPException(status_code=404, detail=f"Erro: {e}")
+    finally:
+        session.close()
+    
 
 
 @app.get("/ping")

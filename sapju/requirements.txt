@@ -10,4 +10,6 @@ httpx
 pytest
 pytest-cov
 
+python-multipart
+simple-file-checksum
 prometheus-fastapi-instrumentator

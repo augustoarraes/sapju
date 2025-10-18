@@ -44,7 +44,8 @@ CREATE TABLE public.documento (
     status character varying,
     checksum character varying,
     texto text,
-    data_upload timestamp with time zone DEFAULT now()
+    data_criacao timestamp with time zone DEFAULT now(),
+    data_atualizacao timestamp with time zone DEFAULT now()
 );
 
 

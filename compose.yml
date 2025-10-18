@@ -35,6 +35,7 @@ services:
       - db
     volumes: 
       - ./sapju:/app
+      - ./uploads:/app/uploads
     networks:
       - convergencia-network
 
