@@ -40,12 +40,11 @@ SET default_table_access_method = heap;
 CREATE TABLE public.documento (
     id bigint NOT NULL,
     documento_id character varying,
-    processo_id bigint,
+    processo_id character varying,
     status character varying,
     checksum character varying,
     texto text,
-    data_upload timestamp with time zone DEFAULT now(),
-    eh_visivel boolean DEFAULT true
+    data_upload timestamp with time zone DEFAULT now()
 );
 
 
@@ -58,9 +57,9 @@ CREATE TABLE public.processo (
     id bigint NOT NULL,
     classe character varying,
     numero integer,
+    processo_id character varying,
     orgao_origem character varying,
-    data_abertura timestamp with time zone DEFAULT now(),
-    eh_visivel boolean DEFAULT true
+    data_abertura timestamp with time zone DEFAULT now()
 );
 
 

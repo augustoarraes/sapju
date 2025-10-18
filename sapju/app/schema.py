@@ -18,12 +18,13 @@ class DocumentoProcesso(BaseModel):
 
 
 
-
 class ProcessoCreate(BaseModel):
     classe: str
     numero: int
     orgao_origem: str
 
 class ProcessoData(ProcessoCreate):
-    processo: ProcessoCreate
-    documentos: list[DocumentoProcesso]
+    documentos: List[DocumentoProcesso]
+
+class ProcessoResponse(BaseModel):
+    processo: ProcessoData

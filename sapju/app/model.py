@@ -11,9 +11,9 @@ class ProcessoModel(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     classe = Column(String)
     numero = Column(Integer, default=0)
+    processo_id = Column(String)
     orgao_origem = Column(String)
-    data_abertura = Column(DateTime)
-    eh_visivel = deferred(Column(Boolean, default=False))
+    data_abertura = Column(DateTime, default=datetime.now().strftime("%m-%d-%Y %H:%M:%S.%f"))
 
 
 class DocumentoModel(Base):
@@ -25,5 +25,4 @@ class DocumentoModel(Base):
     status = Column(String)
     checksum = Column(String)
     texto = Column(String)
-    data_upload = Column(DateTime)
-    eh_visivel = deferred(Column(Boolean, default=False))
+    data_upload = Column(DateTime, default=datetime.now().strftime("%m-%d-%Y %H:%M:%S.%f"))
