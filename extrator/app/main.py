@@ -1,12 +1,12 @@
-from fastapi import FastAPI, status, HTTPException, File, UploadFile
+from fastapi import FastAPI, status, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from app.db import session
 from typing import List
 # from prometheus_fastapi_instrumentator import Instrumentator
-
+from app.extracao import ExtracaoDocumento
 from app.model import DocumentoModel
-#from app.schema import DocumentoData, DocumentoProcesso
-import dotenv, os, uuid, pika, threading, json
+from app.schema import DocumentoEvento
+import dotenv, os, pika, threading, json
 
 
 app = FastAPI(title='Extrator SAPJu', description='Consumer do RabbitMQ & Extrator de Documentos SAPJu')
@@ -25,7 +25,8 @@ def callback(ch, method, properties, body):
         msg = json.loads(body)
         print(f"Payload recebido: {msg}")
         # .. chamar o extrator de texto aqui
-
+        extracao = ExtracaoDocumento( DocumentoEvento(**msg) )
+        extracao.extracao_documento()
     except Exception as e:
         print(f"Erro no processamento da mensagem: {e}")
 

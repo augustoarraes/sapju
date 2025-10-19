@@ -75,6 +75,21 @@ services:
       - RABBITMQ_HEARTBEAT=3600
     networks:
       - convergencia-network
+  minio:
+    image: minio/minio
+    container_name: sapju_storage
+    environment:
+      - MINIO_ROOT_USER=admin
+      - MINIO_ROOT_PASSWORD=minio
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000" # API S3
+      - "9001:9001" # Admin web
+    volumes:
+      - ./uploads:/data
+    networks:
+      - convergencia-network
+  
 
 volumes:
   postgres_data:

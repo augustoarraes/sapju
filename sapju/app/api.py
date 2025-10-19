@@ -67,11 +67,13 @@ async def upload_documento(processo_id: str, arquivos: List[UploadFile] = File(.
 
     for arquivo in arquivos:
         uuid_documento = str(uuid.uuid1() )
-        nome_documento = f"uuid_documento__{arquivo.filename}"
+        nome_documento = f"{uuid_documento}__{arquivo.filename}"
         with open(f"{dir_uploads}/{nome_documento}", "wb") as escrever:
             escrever.write( await arquivo.read() )
             checksum = str( get_checksum(f"{dir_uploads}/{nome_documento}", algorithm=algo) )
-        documento = DocumentoModel(processo_id=processo_id, status="NAO_INICIADA", documento_id=uuid_documento, checksum=checksum)
+        documento = DocumentoModel(processo_id=processo_id, status="NAO_INICIADA", 
+                                   documento_id=uuid_documento, checksum=checksum,
+                                   nome_documento=nome_documento)
         session.add(documento)
         session.commit()
         aux = {

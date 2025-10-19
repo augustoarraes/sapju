@@ -15,7 +15,7 @@ rabbit_queue=os.environ["RABBITMQ_QUEUE"]
 async def startup_event():
     try:
         connection = pika.BlockingConnection(
-            pika.ConnectionParameters(host=rabbit_host, port=rabbit_port, heartbeat=120, blocked_connection_timeout=360)
+            pika.ConnectionParameters(host=rabbit_host, port=rabbit_port, heartbeat=120, blocked_connection_timeout=600)
         )
         channel = connection.channel()
         channel.queue_declare(queue=rabbit_queue)
