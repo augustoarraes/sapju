@@ -38,6 +38,30 @@ services:
       - ./uploads:/app/uploads
     networks:
       - convergencia-network
+  extrator:
+    build: ./sapju
+    image: sapju_extrator
+    container_name: sapju_extrator
+    ports:
+      - 3000:3000
+    depends_on:
+      - rabbitmq
+    volumes: 
+      - ./extrator:/app
+      - ./uploads:/app/uploads
+    networks:
+      - convergencia-network
+  rabbitmq:
+    image: rabbitmq:3.12-management-alpine
+    container_name: sapju_rabbit
+    ports:
+      - 5672:5672 # AMQP
+      - 15672:15672 # admin web
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    networks:
+      - convergencia-network
 
 volumes:
   postgres_data:
@@ -47,12 +71,5 @@ networks:
     driver: bridge
 
 
-# docker-compose up -d
-#
-# App:
-# http://127.0.0.1:5000/
-# http://127.0.0.1:5000/docs
-#
-#
 # Prometheus:
 # http://127.0.0.1:9090/
