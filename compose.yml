@@ -39,7 +39,7 @@ services:
     networks:
       - convergencia-network
   extrator:
-    build: ./sapju
+    build: ./extrator
     image: sapju_extrator
     container_name: sapju_extrator
     ports:

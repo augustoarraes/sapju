@@ -7,6 +7,15 @@ ENV PYTHONUNBUFFERED 1
 
 WORKDIR /app
 
+RUN apk add --no-cache \
+    build-base \
+    poppler-dev \
+    pkgconf \
+    python3-dev \
+    g++ \
+    gcc \
+    musl-dev
+
 COPY requirements.txt .
 
 RUN pip install --no-cache-dir --upgrade -r requirements.txt

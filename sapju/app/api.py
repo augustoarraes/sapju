@@ -7,7 +7,6 @@ from typing import List
 
 from app.model import ProcessoModel, DocumentoModel
 from app.schema import DocumentoCreate,  DocumentoData, ProcessoCreate, ProcessoData, DocumentoProcesso
-#from app.util import separa_classe_numero
 from simple_file_checksum import get_checksum
 import dotenv, os, uuid
 
