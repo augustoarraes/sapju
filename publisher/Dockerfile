@@ -14,6 +14,6 @@ RUN mkdir uploads
 
 COPY . .
 
-EXPOSE 5671
+EXPOSE 5673
 
-CMD ["uvicorn", "app.main:app", "--reload", "--host", "0.0.0.0", "--port", "5671"]
+CMD ["uvicorn", "app.main:app", "--reload", "--host", "0.0.0.0", "--port", "5673"]

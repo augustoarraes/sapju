@@ -2,7 +2,10 @@
 
 SAPJu defini com as iniciais de *`Sistema de Análise de Processos Jurídicos`* + `u` minusculo. 
 
-Melhor [referência](desafio-python-developer.md) do Sistema.
+Melhor [referência](desafio-python-developer.md) do Sistema. O Sistema distribuído foi desenvolvido com o frame do Python FastAPI, com Docker, Banco de Dados Postgres e eventos com RabbitMQ. São três microsserviços FastAPI:
+- API: App Backend de Processo e Documentos
+- Publisher: Responsável inserir na fila de eventos do RabbitMQ
+- Extrator: Responsável por consumir a fila de eventos do RabbitMQ e Realizar a Extração dos Textos dos Documentos (cadastrados na API).
 
 
 ## Subindo o Sistema
@@ -20,7 +23,9 @@ Swagger da API: [http://127.0.0.1:5000/docs](http://127.0.0.1:5000/docs)
 
 Admin Web de Eventos (RabbitMQ): [http://127.0.0.1:15672](http://127.0.0.1:15672/docs) (guest/guest)
 
-Swagger do Extrator de Documentos: [http://127.0.0.1:3000/docs](http://127.0.0.1:3000/docs)
+Swagger do Publisher de Documentos: [http://127.0.0.1:5673/docs](http://127.0.0.1:5673/docs)
+
+Swagger do Extrator de Documentos: [http://127.0.0.1:5674/docs](http://127.0.0.1:5674/docs)
 
 Quando o deploy da App concluir, a pasta `uploads` será criada. Uma diretorio importante para o fluxo da aplicação.
 

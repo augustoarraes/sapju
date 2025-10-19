@@ -18,6 +18,8 @@ class DocumentoProcesso(BaseModel):
     documento_id: str
     checksum: str
 
+class DocumentoEvento(DocumentoCreate):
+    processo_id: str
 
 
 class ProcessoCreate(BaseModel):

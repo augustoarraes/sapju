@@ -43,7 +43,7 @@ services:
     image: sapju_extrator
     container_name: sapju_extrator
     ports:
-      - 3000:3000
+      - 5674:5674
     depends_on:
       - rabbitmq
     volumes: 
@@ -56,7 +56,7 @@ services:
     image: sapju_publisher
     container_name: sapju_publisher
     ports:
-      - 5671:5671
+      - 5673:5673
     depends_on:
       - rabbitmq
     volumes: 
@@ -72,6 +72,7 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
+      - RABBITMQ_HEARTBEAT=3600
     networks:
       - convergencia-network
 

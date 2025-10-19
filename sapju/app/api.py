@@ -6,10 +6,10 @@ from typing import List
 # from prometheus_fastapi_instrumentator import Instrumentator
 
 from app.model import ProcessoModel, DocumentoModel
-from app.schema import DocumentoCreate,  DocumentoData, ProcessoCreate, ProcessoData, DocumentoProcesso
-from app.eventos import envia_mensagem_simples
+from app.schema import DocumentoEvento,  DocumentoData, ProcessoCreate, ProcessoData, DocumentoProcesso
+from app.eventos import envia_mensagem_simples, envia_documento
 from simple_file_checksum import get_checksum
-import dotenv, os, uuid
+import dotenv, os, uuid, threading
 
 
 app = FastAPI(title='API SAPJu', description='Sistema de Análise de Processos Jurídicos')
@@ -71,7 +71,7 @@ async def upload_documento(processo_id: str, arquivos: List[UploadFile] = File(.
         with open(f"{dir_uploads}/{nome_documento}", "wb") as escrever:
             escrever.write( await arquivo.read() )
             checksum = str( get_checksum(f"{dir_uploads}/{nome_documento}", algorithm=algo) )
-        documento = DocumentoModel(processo_id=processo_id, status="CADASTRADO", documento_id=uuid_documento, checksum=checksum)
+        documento = DocumentoModel(processo_id=processo_id, status="NAO_INICIADA", documento_id=uuid_documento, checksum=checksum)
         session.add(documento)
         session.commit()
         aux = {
@@ -80,6 +80,10 @@ async def upload_documento(processo_id: str, arquivos: List[UploadFile] = File(.
             "documento_id": documento.documento_id
         }
         documentos.append(aux)
+        aux["processo_id"] = processo_id
+        documento_evento = DocumentoEvento(**aux)
+        thread = threading.Thread( target=envia_documento( documento_evento ), daemon=True )
+        thread.start()
 
     return documentos
 
