@@ -6,11 +6,11 @@ from typing import List
 # from prometheus_fastapi_instrumentator import Instrumentator
 
 from app.model import DocumentoModel
-from app.schema import DocumentoData, DocumentoProcesso
+#from app.schema import DocumentoData, DocumentoProcesso
 import dotenv, os, uuid
 
 
-app = FastAPI(title='API SAPJu', description='Sistema de Análise de Processos Jurídicos')
+app = FastAPI(title='Extrator SAPJu', description='Extrator de Documentos SAPJu')
 dotenv.load_dotenv(".env")
 app.add_middleware(
     CORSMiddleware,
@@ -21,8 +21,8 @@ app.add_middleware(
 )
 
 
+# /api/eventos/status
 
-    
 
 
 @app.get("/ping")

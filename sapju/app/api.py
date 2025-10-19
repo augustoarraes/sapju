@@ -7,6 +7,7 @@ from typing import List
 
 from app.model import ProcessoModel, DocumentoModel
 from app.schema import DocumentoCreate,  DocumentoData, ProcessoCreate, ProcessoData, DocumentoProcesso
+from app.eventos import envia_mensagem_simples
 from simple_file_checksum import get_checksum
 import dotenv, os, uuid
 
@@ -101,6 +102,7 @@ async def consulta_documento(processo_id: str, documento_id: str):
 
 @app.get("/ping")
 def ping_pong():
+    envia_mensagem_simples("enviando msg test")
     return {"ping": "pong"}
 
 

@@ -51,6 +51,18 @@ services:
       - ./uploads:/app/uploads
     networks:
       - convergencia-network
+  publisher:
+    build: ./publisher
+    image: sapju_publisher
+    container_name: sapju_publisher
+    ports:
+      - 5671:5671
+    depends_on:
+      - rabbitmq
+    volumes: 
+      - ./publisher:/app
+    networks:
+      - convergencia-network
   rabbitmq:
     image: rabbitmq:3.12-management-alpine
     container_name: sapju_rabbit

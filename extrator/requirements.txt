@@ -9,4 +9,5 @@ python-dotenv
 httpx
 
 pdftotext
+pika
 prometheus-fastapi-instrumentator
