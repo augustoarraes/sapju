@@ -27,6 +27,8 @@ Swagger do Publisher de Documentos: [http://127.0.0.1:5673/docs](http://127.0.0.
 
 Swagger do Extrator de Documentos: [http://127.0.0.1:5674/docs](http://127.0.0.1:5674/docs)
 
+Admin Web do MinIO (S3/armazenamento da Extração dos documentos): [http://localhost:9001](http://localhost:9001)
+
 Quando o deploy da App concluir, a pasta `uploads` será criada. Uma diretorio importante para o fluxo da aplicação.
 
 E, as configurações e credenciais do sistema estão em `/sapju/app/.env` e em `compose.yml`.

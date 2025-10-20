@@ -14,17 +14,6 @@ services:
       - POSTGRES_DB=sapju
     networks:
       - convergencia-network
-  # prometheus:
-  #   image: prom/prometheus
-  #   container_name: fastapi_prometheus
-  #   ports:
-  #     - 9090:9090
-  #   volumes:
-  #     - ./prometheus.yml:/etc/prometheus/prometheus.yml
-  #   command:
-  #     - '--config.file=/etc/prometheus/prometheus.yml'
-  #   networks:
-  #     - convergencia-network
   api:
     build: ./sapju
     image: sapju_api
@@ -67,8 +56,8 @@ services:
     image: rabbitmq:3.12-management-alpine
     container_name: sapju_rabbit
     ports:
-      - 5672:5672 # AMQP
-      - 15672:15672 # admin web
+      - 5672:5672
+      - 15672:15672
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
@@ -80,11 +69,11 @@ services:
     container_name: sapju_storage
     environment:
       - MINIO_ROOT_USER=admin
-      - MINIO_ROOT_PASSWORD=minio
+      - MINIO_ROOT_PASSWORD=minio678
     command: server /data --console-address ":9001"
     ports:
-      - "9000:9000" # API S3
-      - "9001:9001" # Admin web
+      - "9000:9000"
+      - "9001:9001"
     volumes:
       - ./uploads:/data
     networks:
@@ -97,7 +86,3 @@ volumes:
 networks: 
   convergencia-network:
     driver: bridge
-
-
-# Prometheus:
-# http://127.0.0.1:9090/

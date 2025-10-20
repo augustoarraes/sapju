@@ -10,4 +10,5 @@ httpx
 
 pdftotext
 pika
+aioboto3
 prometheus-fastapi-instrumentator
