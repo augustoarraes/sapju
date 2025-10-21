@@ -1,6 +1,17 @@
 version: '3.8'
 
 services:
+
+  rabbitmq:
+    image: rabbitmq:3.12-alpine
+    container_name: sapju_rabbit
+    ports:
+      - 5672:5672
+    environment:
+      - RABBITMQ_HEARTBEAT=3600
+    networks:
+      - convergencia-network
+
   db:
     image: postgres:13-alpine
     container_name: sapju_db
@@ -14,6 +25,7 @@ services:
       - POSTGRES_DB=sapju
     networks:
       - convergencia-network
+
   api:
     build: ./sapju
     image: sapju_api
@@ -27,6 +39,7 @@ services:
       - ./uploads:/app/uploads
     networks:
       - convergencia-network
+
   extrator:
     build: ./extrator
     image: sapju_extrator
@@ -40,6 +53,7 @@ services:
       - ./uploads:/app/uploads
     networks:
       - convergencia-network
+  
   publisher:
     build: ./publisher
     image: sapju_publisher
@@ -52,18 +66,7 @@ services:
       - ./publisher:/app
     networks:
       - convergencia-network
-  rabbitmq:
-    image: rabbitmq:3.12-management-alpine
-    container_name: sapju_rabbit
-    ports:
-      - 5672:5672
-      - 15672:15672
-    environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
-      - RABBITMQ_HEARTBEAT=3600
-    networks:
-      - convergencia-network
+
   minio:
     image: minio/minio
     container_name: sapju_storage
@@ -79,7 +82,6 @@ services:
     networks:
       - convergencia-network
   
-
 volumes:
   postgres_data:
 

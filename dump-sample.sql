@@ -43,6 +43,7 @@ CREATE TABLE public.documento (
     processo_id character varying,
     status character varying,
     checksum character varying,
+    nome_documento character varying,
     texto text,
     data_criacao timestamp with time zone DEFAULT now(),
     data_atualizacao timestamp with time zone DEFAULT now()

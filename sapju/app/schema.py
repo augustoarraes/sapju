@@ -9,7 +9,7 @@ class DocumentoCreate(BaseModel):
     checksum: str
     documento_id: str
 
-class DocumentoData(BaseModel):
+class DocumentoExtracao(BaseModel):
     status: str
     data_criacao: datetime
     data_atualizacao: datetime
@@ -17,6 +17,9 @@ class DocumentoData(BaseModel):
 class DocumentoProcesso(BaseModel):
     documento_id: str
     checksum: str
+
+class DocumentoData(DocumentoProcesso):
+    texto: str
 
 class DocumentoEvento(DocumentoCreate):
     processo_id: str

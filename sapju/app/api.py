@@ -6,7 +6,7 @@ from typing import List
 # from prometheus_fastapi_instrumentator import Instrumentator
 
 from app.model import ProcessoModel, DocumentoModel
-from app.schema import DocumentoEvento,  DocumentoData, ProcessoCreate, ProcessoData, DocumentoProcesso
+from app.schema import DocumentoEvento,  DocumentoData, ProcessoCreate, ProcessoData, DocumentoProcesso, DocumentoExtracao
 from app.eventos import envia_mensagem_simples, envia_documento
 from simple_file_checksum import get_checksum
 import dotenv, os, uuid, threading
@@ -23,7 +23,7 @@ app.add_middleware(
 )
 
 
-@app.post("/api/processo", status_code=status.HTTP_201_CREATED, tags=['Processo'])
+@app.post("/api/processos", status_code=status.HTTP_201_CREATED, tags=['Processo'])
 async def create_processo(processo: ProcessoCreate):
     print(str(processo))
     processo = ProcessoModel(classe=processo.classe, numero=processo.numero, 
@@ -90,8 +90,21 @@ async def upload_documento(processo_id: str, arquivos: List[UploadFile] = File(.
     return documentos
 
 
+@app.get("/api/processos/{processo_id}/documentos/{documento_id}", response_model=DocumentoData, tags=['Documento'])
+async def consulta_documento(processo_id: str, documento_id: str):
+    try:
+        documento = session.query(DocumentoModel).filter(DocumentoModel.processo_id==processo_id, DocumentoModel.documento_id==documento_id).first()
+        if not documento:
+            raise HTTPException(status_code=404, detail=f"Documento não encontrado!")
+        return documento
+    except Exception as e:
+        session.rollback()
+        raise HTTPException(status_code=404, detail=f"Erro: {e}")
+    finally:
+        session.close()
 
-@app.get("/api/processos/{processo_id}/documentos/{documento_id}/status", response_model=DocumentoData, tags=['Documento'])
+
+@app.get("/api/processos/{processo_id}/documentos/{documento_id}/status", response_model=DocumentoExtracao, tags=['Extração'])
 async def consulta_documento(processo_id: str, documento_id: str):
     try:
         documento = session.query(DocumentoModel).filter(DocumentoModel.processo_id==processo_id, DocumentoModel.documento_id==documento_id).first()
