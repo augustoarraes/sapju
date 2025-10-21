@@ -78,7 +78,7 @@ services:
       - "9000:9000"
       - "9001:9001"
     volumes:
-      - ./uploads:/data
+      - ./data:/data
     networks:
       - convergencia-network
   
