@@ -2,7 +2,7 @@
 
 SAPJu defini com as iniciais de *`Sistema de Análise de Processos Jurídicos`* + `u` minusculo. 
 
-Melhor [referência](desafio-python-developer.md) do Sistema. O Sistema distribuído foi desenvolvido com o frame do Python FastAPI, com Docker, Banco de Dados Postgres e eventos com RabbitMQ (*broker* de eventos). São três microsserviços FastAPI:
+Melhor [referência](desafio-python-developer.md) do Sistema. O Sistema distribuído foi desenvolvido com o frame do Python FastAPI, com Docker, Banco de Dados Postgres, eventos com RabbitMQ (*broker* de eventos) e MinIO como storage das extrações. São três microsserviços FastAPI:
 - API: App Backend de Processo e Documentos
 - Publisher: Responsável inserir na fila de eventos do RabbitMQ
 - Extrator: Responsável por consumir a fila de eventos do RabbitMQ e Realizar a Extração dos Textos dos Documentos (cadastrados na API).
@@ -10,7 +10,7 @@ Porquê FastAPI?: Python, Assincrono nativo, alto desempeho, alta performance, l
 
 ## Diretórios do Projeto
 - `sapju`: A API (FastAPI), backend de cadastro de Processo e Documentos (PDFs)
-- `Publisher`: Microsserviço (FastAPI) que lança eventos na fila do RabbitMQ
+- `Publisher`: Microsserviço (FastAPI) que lança eventos na fila do RabbitMQ.
 - `Extrator`: Microsserviço (FastAPI) Consumidor do RabbitMQ e Extrator de Texto dos PDFs
 - `documentos`: Documentos exemplos utilizados na App.
 
