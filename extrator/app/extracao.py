@@ -2,7 +2,8 @@ from app.db import session
 from app.schema import DocumentoEvento
 from app.model import DocumentoModel
 from datetime import datetime
-import dotenv, os, pdftotext, json, aioboto3, asyncio
+import dotenv, os, pdftotext, json, aioboto3, aiobotocore, asyncio
+from botocore.exceptions import ClientError
 
 
 class ExtracaoDocumento:
@@ -11,9 +12,16 @@ class ExtracaoDocumento:
     async def create_s3_bucket(self):
         async with self.s3_session.client("s3", endpoint_url=self.s3_url, aws_access_key_id=self.s3_user, 
             aws_secret_access_key=self.s3_password) as s3:
-            await s3.create_bucket(Bucket=self.s3_bucket)
-            print(f"Criando bucket {self.s3_bucket} ...")
 
+            lista_buckets = await s3.list_buckets()
+            buckets = [ bucket["Name"] for bucket in lista_buckets["Buckets"] ]
+
+            if self.s3_bucket not in buckets:
+                await s3.create_bucket(Bucket=self.s3_bucket)
+                print(f"Criando bucket {self.s3_bucket} ...")
+            else:
+                print(f"Bucket {self.s3_bucket} já existe!")
+                
 
     def __init__(self, documento: DocumentoEvento):
         dotenv.load_dotenv(".env")

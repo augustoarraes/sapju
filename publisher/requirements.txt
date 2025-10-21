@@ -4,4 +4,4 @@ uvicorn
 python-dotenv
 httpx
 
-pika
+aio_pika
