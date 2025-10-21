@@ -94,6 +94,8 @@ O extrator consome os arquivos disponíveis na fila, realiza a extração de tex
 
 ## Melhorias e Futuras Features
 
+Concluir a ETL (Extrair, Transformar e Carregar). Pois ainda faltaria Transformar e Carregar.
+
 Uma camada posterior a esse App, um Treino inicial de modelos IA.
 
 
