@@ -78,7 +78,7 @@ http://localhost:5000/api/processos/{processo_id}/documentos/{documento_id}
 ~~~
 
 
-## Status da Extração do Texto
+### Status da Extração do Texto
 Endpoint: 
 ~~~bash
 http://localhost:5000/api/processos/{processo_id}/documentos/{documento_id}/status
