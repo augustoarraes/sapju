@@ -6,8 +6,10 @@ psycopg2-binary
 pydantic
 
 python-dotenv
-httpx
 requests
+
+httpx
+pytest-asyncio
 pytest
 pytest-cov
 
