@@ -84,6 +84,13 @@ http://localhost:5000/api/processos/{processo_id}/documentos/{documento_id}/stat
 ~~~
 
 
+## Rodando os Testes
+```bash
+docker exec -it sapju_api pytest
+```
+Aqui iniciei a implementação dos Testes de Integração. Não implementei nenhum teste unitário até então.
+
+
 ## Arquitetura da Aplicação
 
 Os Processos Judiciais e Documentos são cadastrados via Api. Assim que os documento são inseridos, são lançados (*publisher*) na esteira de eventos do Rabbit.
